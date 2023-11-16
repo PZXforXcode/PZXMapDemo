@@ -33,8 +33,10 @@ class ClusterMap2AnnotationView: MKAnnotationView {
 
     override var annotation: MKAnnotation? {
         didSet {
+
             self.frame = CGRect(x: 0, y: 0, width: 50, height: 50)
-            displayPriority = .defaultHigh
+            //这句代码很重要，不设置required经常出现异常消失的问题
+            displayPriority = .required
             backgroundColor = .gray
             image = UIImage(named: "-")
 
@@ -58,6 +60,8 @@ class ClusterMap2AnnotationView: MKAnnotationView {
 class CustomMap2AnnotationView: MKAnnotationView {
     override var annotation: MKAnnotation? {
         didSet {
+            
+            displayPriority = .required
             self.frame = CGRect(x: 0, y: 0, width: 50, height: 50)
             backgroundColor = .white
             image = UIImage(named: "黑色返回")
