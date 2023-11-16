@@ -105,6 +105,19 @@ class MapViewController: RootViewController, MKMapViewDelegate {
             forAnnotationViewWithReuseIdentifier:MKMapViewDefaultClusterAnnotationViewReuseIdentifier)
         
         
+        let button = UIButton.init(type: .custom)
+        button.setTitle("跳转", for: .normal)
+        button.frame = CGRect(x: 40, y: 80, width: 80, height: 30)
+        button.addTarget(self, action: #selector(buttonPressed), for: .touchUpInside)
+        self.mapView.addSubview(button)
+        
+    }
+    @objc func buttonPressed() {
+        
+        let vc : Mine2ViewController = Mine2ViewController.init()
+        vc.hidesBottomBarWhenPushed = true
+        self.navigationController?.pushViewController(vc, animated: true)
+        
     }
     
     func addRandomAnnotationsNearby() {
@@ -161,5 +174,15 @@ class MapViewController: RootViewController, MKMapViewDelegate {
              return MKMarkerAnnotationView(annotation: annotation, reuseIdentifier: MKMapViewDefaultAnnotationViewReuseIdentifier)
          }
      }
+    
+    func mapView(_ mapView: MKMapView, regionWillChangeAnimated animated: Bool) {
+        // 在这里处理缩放开始的逻辑
+    }
+
+    func mapView(_ mapView: MKMapView, regionDidChangeAnimated animated: Bool) {
+        // 在这里处理缩放结束的逻辑
+     
+    }
+
 
 }
