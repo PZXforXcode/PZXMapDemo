@@ -23,6 +23,7 @@
 		898FC543265F7BC500CEEF48 /* NetConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = 898FC542265F7BC500CEEF48 /* NetConfig.swift */; };
 		898FC545265F7D3100CEEF48 /* SeverConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = 898FC544265F7D3100CEEF48 /* SeverConfig.swift */; };
 		898FC547265F7F3C00CEEF48 /* NetworkingManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 898FC546265F7F3C00CEEF48 /* NetworkingManager.swift */; };
+		899969512B0741DA0057649C /* MKMapView+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 899969502B0741DA0057649C /* MKMapView+Extension.swift */; };
 		89E58C292693DA3C007C58D8 /* NSArray+HYBUnicodeReadable.m in Sources */ = {isa = PBXBuildFile; fileRef = 89E58C232693DA3C007C58D8 /* NSArray+HYBUnicodeReadable.m */; };
 		89E58C2A2693DA3C007C58D8 /* NSDictionary+HYBUnicodeReadable.m in Sources */ = {isa = PBXBuildFile; fileRef = 89E58C242693DA3C007C58D8 /* NSDictionary+HYBUnicodeReadable.m */; };
 		89E58C2B2693DA3C007C58D8 /* NSSet+HYBUnicodeReadable.m in Sources */ = {isa = PBXBuildFile; fileRef = 89E58C252693DA3C007C58D8 /* NSSet+HYBUnicodeReadable.m */; };
@@ -76,6 +77,7 @@
 		898FC542265F7BC500CEEF48 /* NetConfig.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetConfig.swift; sourceTree = "<group>"; };
 		898FC544265F7D3100CEEF48 /* SeverConfig.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SeverConfig.swift; sourceTree = "<group>"; };
 		898FC546265F7F3C00CEEF48 /* NetworkingManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkingManager.swift; sourceTree = "<group>"; };
+		899969502B0741DA0057649C /* MKMapView+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "MKMapView+Extension.swift"; sourceTree = "<group>"; };
 		89E58C232693DA3C007C58D8 /* NSArray+HYBUnicodeReadable.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSArray+HYBUnicodeReadable.m"; sourceTree = "<group>"; };
 		89E58C242693DA3C007C58D8 /* NSDictionary+HYBUnicodeReadable.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSDictionary+HYBUnicodeReadable.m"; sourceTree = "<group>"; };
 		89E58C252693DA3C007C58D8 /* NSSet+HYBUnicodeReadable.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSSet+HYBUnicodeReadable.m"; sourceTree = "<group>"; };
@@ -245,6 +247,7 @@
 				89E58C2F2693E3B6007C58D8 /* UIColor+Extension.swift */,
 				89E58C302693E3B6007C58D8 /* UIView+Extension.swift */,
 				89E58C312693E3B6007C58D8 /* String+Extension.swift */,
+				899969502B0741DA0057649C /* MKMapView+Extension.swift */,
 			);
 			path = Extension;
 			sourceTree = "<group>";
@@ -491,6 +494,7 @@
 				89E58C7526944488007C58D8 /* CommonUtility.m in Sources */,
 				89E58C4C2693F1AD007C58D8 /* MineViewController.swift in Sources */,
 				89E58C382693E41D007C58D8 /* GlobalData.swift in Sources */,
+				899969512B0741DA0057649C /* MKMapView+Extension.swift in Sources */,
 				894DE5AB2B04BA5E002510E4 /* MapViewController.swift in Sources */,
 				89E58C5D2693FA0C007C58D8 /* UIFont+extension.swift in Sources */,
 				89E58C632693FA0C007C58D8 /* String+Field.swift in Sources */,

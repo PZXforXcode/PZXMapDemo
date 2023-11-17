@@ -62,15 +62,16 @@ class CarViewController: RootViewController,MKMapViewDelegate {
         // 设置地图的初始显示区域
         var annotations = [CustomAnnotation]()
             // 添加多个相似样式的标注
-            for i in 0..<5 {
+            for i in 0..<20 {
                 let annotation = CustomAnnotation(coordinate: getRandomCoordinate(center: initialLocation.coordinate, distance: 2000), title: "Location \(i+1)", subtitle: "Description \(i+1)")
                 annotations.append(annotation)
             }
             manager.add(annotations)
             mapView.addAnnotations(annotations)
 
-            manager.reload(mapView: mapView)
-
+            manager.reload(mapView: mapView) { finished in
+            print(finished)
+            }
     }
     
     func mapView(_ mapView: MKMapView, viewFor annotation: MKAnnotation) -> MKAnnotationView? {

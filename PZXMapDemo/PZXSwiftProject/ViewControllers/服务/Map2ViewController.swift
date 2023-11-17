@@ -10,6 +10,7 @@ import MapKit
 import CoreLocation
 
 class CustomClusterAnnotation: NSObject, MKAnnotation {
+
     var coordinate: CLLocationCoordinate2D
     var memberAnnotations: [MKAnnotation]
 
@@ -35,7 +36,7 @@ class ClusterMap2AnnotationView: MKAnnotationView {
         didSet {
 
             self.frame = CGRect(x: 0, y: 0, width: 50, height: 50)
-            //这句代码很重要，不设置required经常出现异常消失的问题
+            //这句代码很重要，不设置required
             displayPriority = .required
             backgroundColor = .gray
             image = UIImage(named: "-")
@@ -76,6 +77,7 @@ class Mine2ViewController: RootViewController, MKMapViewDelegate {
     var mapView: MKMapView!
     var annotations = [MKAnnotation]()
 
+    var previousZoomLevel: Double = 0
 
     //MARK: - lifecycle
     override func viewDidLoad() {
@@ -108,7 +110,7 @@ class Mine2ViewController: RootViewController, MKMapViewDelegate {
 
         
         // 创建 MKMapView 对象
-        mapView = MKMapView(frame: view.bounds)
+        mapView = MKMapView(frame: CGRect(x: 0, y: TOP_HEIGHT, width: SCREEN_WIDTH, height: SCREEN_HEIGHT - TOP_HEIGHT))
         mapView.delegate = self
         view.addSubview(mapView)
         mapView.setRegion(coordinateRegion, animated: true)
@@ -184,16 +186,24 @@ class Mine2ViewController: RootViewController, MKMapViewDelegate {
      }
     
     
+    func mapView(_ mapView: MKMapView, regionWillChangeAnimated animated: Bool) {
+        // 记录当前地图区域
+        previousZoomLevel  = mapView.zoomLevel
+        
+    }
+    
     func mapView(_ mapView: MKMapView, regionDidChangeAnimated animated: Bool) {
-           // 地图区域变化后重新组织标注
-        mapView.removeAnnotations(mapView.annotations)
-        let reorganizedAnnotations = reorganizeAnnotations(for: mapView.region)
-        print("reorganizedAnnotations = \(reorganizedAnnotations)")
-        mapView.addAnnotations(reorganizedAnnotations)
-        print("mapView.annotations = \(mapView.annotations)")
-        print("reorganizedAnnotations.count = \(reorganizedAnnotations.count)")
-        print("mapView.annotations.count = \(mapView.annotations.count)")
+//        
+//        print("previousZoomLevel = \(previousZoomLevel)")
+//        print("mapView.zoomLevel = \(mapView.zoomLevel)")
 
+             if (previousZoomLevel != mapView.zoomLevel) {
+                 //如果放大缩小
+                // 在这里处理移动或缩放结束的逻辑
+                mapView.removeAnnotations(mapView.annotations)
+                let reorganizedAnnotations = reorganizeAnnotations(for: mapView.region)
+                mapView.addAnnotations(reorganizedAnnotations)
+            }
        }
        
     
@@ -235,7 +245,10 @@ class Mine2ViewController: RootViewController, MKMapViewDelegate {
     func calculateClusteringDistanceThreshold(for region: MKCoordinateRegion) -> CLLocationDistance {
         // 根据缩放等级等条件，计算聚合的距离阈值
         // 你可能需要根据具体情况调整这个逻辑
-        return region.span.latitudeDelta * 10000
+//        print("region.span.latitudeDelta = \(region.span.latitudeDelta)")
+        //将纬度差转换为对应的米数。乘以111000是因为大约每度纬度对应111千米。
+        let latitudeMeter = region.span.latitudeDelta * 111000
+        return latitudeMeter/10
     }
 
     func findNearbyCluster(for annotation: PZXMap2CustomAnnotation, in clusters: inout [CustomClusterAnnotation], with distanceThreshold: CLLocationDistance) -> CustomClusterAnnotation? {
@@ -254,3 +267,6 @@ class Mine2ViewController: RootViewController, MKMapViewDelegate {
     }
 
 }
+
+
+

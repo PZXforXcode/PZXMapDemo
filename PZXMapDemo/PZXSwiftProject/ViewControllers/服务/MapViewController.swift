@@ -22,6 +22,9 @@ class ClusterAnnotationView: MKAnnotationView {
     override var annotation: MKAnnotation? {
         didSet {
             self.frame = CGRect(x: 0, y: 0, width: 50, height: 50)
+            self.layer.cornerRadius = 25
+            self.layer.borderWidth = 2
+            self.layer.borderColor = UIColor.orange.cgColor
             displayPriority = .defaultHigh
             backgroundColor = .gray
             image = UIImage(named: "-")
@@ -54,6 +57,7 @@ class MapViewController: RootViewController, MKMapViewDelegate {
     
     var mapView: MKMapView!
     var annotations = [MKAnnotation]()
+    var previousZoomLevel: Double = 0
 
 
     //MARK: - lifecycle
@@ -95,7 +99,7 @@ class MapViewController: RootViewController, MKMapViewDelegate {
         // 添加一些标注
         addRandomAnnotationsNearby()
 
-        // 将标注添加到地图
+        // 将标注添加到地图x
         mapView.addAnnotations(annotations)
 
         // 配置聚合
@@ -177,12 +181,31 @@ class MapViewController: RootViewController, MKMapViewDelegate {
     
     func mapView(_ mapView: MKMapView, regionWillChangeAnimated animated: Bool) {
         // 在这里处理缩放开始的逻辑
+        previousZoomLevel  = mapView.zoomLevel
+
     }
 
     func mapView(_ mapView: MKMapView, regionDidChangeAnimated animated: Bool) {
         // 在这里处理缩放结束的逻辑
-     
+        
+        print("previousZoomLevel = \(previousZoomLevel)")
+        print("mapView.zoomLevel = \(mapView.zoomLevel)")
+//        addRandomAnnotationsNearby()
+        if (previousZoomLevel != mapView.zoomLevel) {
+            mapView.removeAnnotations(annotations)
+            mapView.addAnnotations(annotations)
+            
+        }
+
     }
+    
+    // 实现群集标注的方法
+       func mapView(_ mapView: MKMapView, clusterAnnotationForMemberAnnotations memberAnnotations: [MKAnnotation]) -> MKClusterAnnotation {
+           // 创建一个MKClusterAnnotation实例，将群集中的标注数组传递给它
+           let clusterAnnotation = MKClusterAnnotation(memberAnnotations: memberAnnotations)
+//           print("clusterAnnotation = \(clusterAnnotation)")
+           return clusterAnnotation
+       }
 
 
 }
