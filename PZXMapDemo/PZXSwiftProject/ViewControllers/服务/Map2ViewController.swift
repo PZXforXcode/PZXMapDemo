@@ -186,6 +186,20 @@ class Mine2ViewController: RootViewController, MKMapViewDelegate {
      }
     
     
+    func mapView(_ mapView: MKMapView, didSelect view: MKAnnotationView) {
+//        mapView.setZoomLevel(mapView.zoomLevel + 1.3,coordinate: view.annotation?.coordinate)
+
+        if view is ClusterMap2AnnotationView {
+            print("Did select ClusterMap2AnnotationView")
+            mapView.setZoomLevel(mapView.zoomLevel + 1.3,coordinate: view.annotation?.coordinate)
+
+        } else if view is CustomMap2AnnotationView  {
+            
+            print("Did select CustomMap2AnnotationView")
+            
+        }
+    }
+    
     func mapView(_ mapView: MKMapView, regionWillChangeAnimated animated: Bool) {
         // 记录当前地图区域
         previousZoomLevel  = mapView.zoomLevel
