@@ -88,6 +88,7 @@ class CustomAnnotationView: MKAnnotationView {
         
         self.isCallOut = true
         backgroundView.frame = CGRect(x: 0, y: 0, width: 250, height: 250)
+
     }
     
     func hiddenCallOutView () {
@@ -263,10 +264,7 @@ class MapViewController: RootViewController, MKMapViewDelegate {
 
     }
     
-    func mapView(_ mapView: MKMapView, didSelect annotation: MKAnnotation) {
-        print("Did select MKAnnotation")
 
-    }
     fileprivate func hideCustomAnnotationView(_ mapView: MKMapView, selfView: CustomAnnotationView) {
         // 获取地图上所有的标注
         let allAnnotations = mapView.annotations
@@ -294,23 +292,33 @@ class MapViewController: RootViewController, MKMapViewDelegate {
                 item.hiddenCallOutView()
         }
     }
-    
+    func mapView(_ mapView: MKMapView, didSelect annotation: MKAnnotation) {
+        print("Did select MKAnnotation")
+        
+
+
+    }
     
     func mapView(_ mapView: MKMapView, didSelect view: MKAnnotationView) {
         
-        view.layer.zPosition = CGFloat(MAXFLOAT)
 
         if let customAnnotationView = view as? CustomAnnotationView {
                // Now 'customAnnotationView' is of type CustomAnnotationView
                print("Did select CustomAnnotationView")
             hideCustomAnnotationView(mapView, selfView: customAnnotationView)
+            
 
+
+            
             mapView.setCenter(view.annotation!.coordinate, animated: true)
             if (customAnnotationView.isCallOut) {
                 customAnnotationView.hiddenCallOutView()
             } else {
                 customAnnotationView.showCallOutView()
             }
+            ///选中的customAnnotationView Z轴置顶
+            customAnnotationView.zPriority = .max
+            
 
            } else if view is ClusterAnnotationView {
                print("Did select ClusterAnnotationView")
