@@ -71,6 +71,7 @@ class CustomAnnotationView: MKAnnotationView {
             backgroundView.layer.cornerRadius = 25
             backgroundView.layer.borderWidth = 2
             backgroundView.backgroundColor = .cyan
+//            backgroundView.isUserInteractionEnabled = false
             self.addSubview(backgroundView)
 
             
@@ -78,6 +79,7 @@ class CustomAnnotationView: MKAnnotationView {
             foregroundView.layer.cornerRadius = 25
             foregroundView.layer.borderWidth = 2
             foregroundView.backgroundColor = .brown
+//            foregroundView.isUserInteractionEnabled = false
             self.addSubview(foregroundView)
         
             
@@ -95,6 +97,7 @@ class CustomAnnotationView: MKAnnotationView {
         
         self.isCallOut = false
         backgroundView.frame = CGRect(x: 0, y: 0, width: 50, height: 50)
+
     }
 }
 
@@ -104,7 +107,8 @@ class MapViewController: RootViewController, MKMapViewDelegate {
     var mapView: MKMapView!
     var annotations = [MKAnnotation]()
     var previousZoomLevel: Double = 0
-
+    ///是否是点击导致移动的
+//    var isSelectMove: Bool = false
 
     //MARK: - lifecycle
     override func viewDidLoad() {
@@ -159,7 +163,7 @@ class MapViewController: RootViewController, MKMapViewDelegate {
         let tapGesture = UITapGestureRecognizer(target: self, action: #selector(handleTap))
         tapGesture.numberOfTapsRequired = 1
         tapGesture.numberOfTouchesRequired = 1
-        mapView.addGestureRecognizer(tapGesture)
+//        mapView.addGestureRecognizer(tapGesture)
         
         
         let button = UIButton.init(type: .custom)
@@ -209,14 +213,47 @@ class MapViewController: RootViewController, MKMapViewDelegate {
     
     //MARK: – 点击事件
     
+    override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
+        if let touch = touches.first {
+            let point = touch.location(in: self.mapView)
+            let view = self.mapView.hitTest(point, with: event)
+
+            if let annotationContainerViewType = NSClassFromString("MKAnnotationContainerView"),
+               let annotationViewType = NSClassFromString("MKAnnotationView") {
+                if view!.isKind(of: annotationContainerViewType) {
+                    onClickedMapBlank()
+                    print("点击空白区域")
+                } else if view!.isKind(of: annotationViewType) {
+                    print("点击Annotation区域")
+                }
+            }
+        }
+    }
+
+    func onClickedMapBlank() {
+        // doSomething
+        hideCustomAnnotationView(mapView, selfView: nil,isAll: true)
+    }
+    
     @objc func handleTap(gesture: UITapGestureRecognizer) {
         if gesture.state == .ended {
+            
+            //点击标注不执行
             // 获取点击的点的坐标
             let location = gesture.location(in: mapView)
+            
+            // 判断点击的位置是否在 MKAnnotationView 上
+//            if let tappedView = mapView.hitTest(location, with: nil), tappedView is MKAnnotationView {
+//                       // 如果点击位置在 MKAnnotationView 上，不执行进一步操作
+//                       return
+//            }
+            
             // 将点的坐标转换成地图上的坐标
             let coordinate = mapView.convert(location, toCoordinateFrom: mapView)
             // 在这里执行你的操作，比如处理点击地图的空白区域或者双击空白区域
             print("Clicked on map at coordinate: \(coordinate)")
+//            hideCustomAnnotationView(mapView, selfView: nil,isAll: true)
+            
         }
     }
     
@@ -252,20 +289,21 @@ class MapViewController: RootViewController, MKMapViewDelegate {
 
     func mapView(_ mapView: MKMapView, regionDidChangeAnimated animated: Bool) {
         // 在这里处理缩放结束的逻辑
-        
+
+
         print("previousZoomLevel = \(previousZoomLevel)")
         print("mapView.zoomLevel = \(mapView.zoomLevel)")
 //        addRandomAnnotationsNearby()
         if (previousZoomLevel != mapView.zoomLevel) {
 //            mapView.removeAnnotations(annotations)
 //            mapView.addAnnotations(annotations)
-            
         }
+
 
     }
     
 
-    fileprivate func hideCustomAnnotationView(_ mapView: MKMapView, selfView: CustomAnnotationView) {
+    fileprivate func hideCustomAnnotationView(_ mapView: MKMapView, selfView: CustomAnnotationView?,isAll:Bool = false) {
         // 获取地图上所有的标注
         let allAnnotations = mapView.annotations
         
@@ -274,22 +312,16 @@ class MapViewController: RootViewController, MKMapViewDelegate {
             return mapView.view(for: annotation) as? CustomAnnotationView
         }
         for item in customAnnotationViews {
-            if (selfView != item) {
+            //隐藏的时候z轴最小
+            item.zPriority = .min
+            if (isAll) {
                 item.hiddenCallOutView()
+            } else {
+                if (selfView != item) {
+                    item.hiddenCallOutView()
+                }
             }
-        }
-    }
-    
-    fileprivate func hideAllCustomAnnotationView(_ mapView: MKMapView) {
-        // 获取地图上所有的标注
-        let allAnnotations = mapView.annotations
-        
-        // 筛选出类型为 CustomAnnotationView 的标注
-        let customAnnotationViews = allAnnotations.compactMap { annotation -> CustomAnnotationView? in
-            return mapView.view(for: annotation) as? CustomAnnotationView
-        }
-        for item in customAnnotationViews {
-                item.hiddenCallOutView()
+       
         }
     }
     func mapView(_ mapView: MKMapView, didSelect annotation: MKAnnotation) {
@@ -300,17 +332,17 @@ class MapViewController: RootViewController, MKMapViewDelegate {
     }
     
     func mapView(_ mapView: MKMapView, didSelect view: MKAnnotationView) {
-        
+
 
         if let customAnnotationView = view as? CustomAnnotationView {
                // Now 'customAnnotationView' is of type CustomAnnotationView
                print("Did select CustomAnnotationView")
+            
             hideCustomAnnotationView(mapView, selfView: customAnnotationView)
             
 
 
             
-            mapView.setCenter(view.annotation!.coordinate, animated: true)
             if (customAnnotationView.isCallOut) {
                 customAnnotationView.hiddenCallOutView()
             } else {
@@ -318,7 +350,8 @@ class MapViewController: RootViewController, MKMapViewDelegate {
             }
             ///选中的customAnnotationView Z轴置顶
             customAnnotationView.zPriority = .max
-            
+            mapView.setCenter(view.annotation!.coordinate, animated: true)
+
 
            } else if view is ClusterAnnotationView {
                print("Did select ClusterAnnotationView")
