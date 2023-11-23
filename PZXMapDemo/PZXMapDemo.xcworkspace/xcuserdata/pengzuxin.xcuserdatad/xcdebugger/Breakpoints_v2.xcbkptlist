@@ -20,5 +20,116 @@
             landmarkType = "0">
          </BreakpointContent>
       </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "458D45FF-A8B6-4200-B8CE-F11B2BF1B815"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "PZXSwiftProject/thirdSource/Sources/General/ZLPhotoPreviewSheet.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "564"
+            endingLineNumber = "564"
+            landmarkName = "requestSelectPhoto(viewController:)"
+            landmarkType = "7">
+            <Locations>
+               <Location
+                  uuid = "458D45FF-A8B6-4200-B8CE-F11B2BF1B815 - ef4f3af47286aae1"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "PZXMapDemo.ZLPhotoPreviewSheet.requestSelectPhoto(viewController: Swift.Optional&lt;__C.UIViewController&gt;) -&gt; ()"
+                  moduleName = "PZXMapDemo"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/pengzuxin/Desktop/my_project/%E9%A2%84%E7%A0%94%E9%A1%B9%E7%9B%AE/PZXMapGitDemo/PZXMapDemo/PZXSwiftProject/thirdSource/Sources/General/ZLPhotoPreviewSheet.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "565"
+                  endingLineNumber = "565"
+                  offsetFromSymbolStart = "2956">
+               </Location>
+               <Location
+                  uuid = "458D45FF-A8B6-4200-B8CE-F11B2BF1B815 - ef4f3af47286aac0"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "PZXMapDemo.ZLPhotoPreviewSheet.requestSelectPhoto(viewController: Swift.Optional&lt;__C.UIViewController&gt;) -&gt; ()"
+                  moduleName = "PZXMapDemo"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/pengzuxin/Desktop/my_project/%E9%A2%84%E7%A0%94%E9%A1%B9%E7%9B%AE/PZXMapGitDemo/PZXMapDemo/PZXSwiftProject/thirdSource/Sources/General/ZLPhotoPreviewSheet.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "564"
+                  endingLineNumber = "564"
+                  offsetFromSymbolStart = "2976">
+               </Location>
+            </Locations>
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "0483E431-A146-4684-B3FB-C67CB579D2BF"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "PZXSwiftProject/thirdSource/Sources/General/ZLPhotoPreviewSheet.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "1142"
+            endingLineNumber = "1142"
+            landmarkName = "imagePickerController(_:didFinishPickingMediaWithInfo:)"
+            landmarkType = "7">
+            <Locations>
+               <Location
+                  uuid = "0483E431-A146-4684-B3FB-C67CB579D2BF - 8f4066958d1bdeb3"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "closure #1 () -&gt; () in PZXMapDemo.ZLPhotoPreviewSheet.imagePickerController(_: __C.UIImagePickerController, didFinishPickingMediaWithInfo: Swift.Dictionary&lt;__C.UIImagePickerControllerInfoKey, Any&gt;) -&gt; ()"
+                  moduleName = "PZXMapDemo"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/pengzuxin/Desktop/my_project/%E9%A2%84%E7%A0%94%E9%A1%B9%E7%9B%AE/PZXMapGitDemo/PZXMapDemo/PZXSwiftProject/thirdSource/Sources/General/ZLPhotoPreviewSheet.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "1142"
+                  endingLineNumber = "1142"
+                  offsetFromSymbolStart = "388">
+               </Location>
+               <Location
+                  uuid = "0483E431-A146-4684-B3FB-C67CB579D2BF - d72116745c3136e7"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "PZXMapDemo.ZLPhotoPreviewSheet.imagePickerController(_: __C.UIImagePickerController, didFinishPickingMediaWithInfo: Swift.Dictionary&lt;__C.UIImagePickerControllerInfoKey, Any&gt;) -&gt; ()"
+                  moduleName = "PZXMapDemo"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/pengzuxin/Desktop/my_project/%E9%A2%84%E7%A0%94%E9%A1%B9%E7%9B%AE/PZXMapGitDemo/PZXMapDemo/PZXSwiftProject/thirdSource/Sources/General/ZLPhotoPreviewSheet.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "1142"
+                  endingLineNumber = "1142"
+                  offsetFromSymbolStart = "60">
+               </Location>
+               <Location
+                  uuid = "0483E431-A146-4684-B3FB-C67CB579D2BF - 8f4066958d1bde92"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "closure #1 () -&gt; () in PZXMapDemo.ZLPhotoPreviewSheet.imagePickerController(_: __C.UIImagePickerController, didFinishPickingMediaWithInfo: Swift.Dictionary&lt;__C.UIImagePickerControllerInfoKey, Any&gt;) -&gt; ()"
+                  moduleName = "PZXMapDemo"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/pengzuxin/Desktop/my_project/%E9%A2%84%E7%A0%94%E9%A1%B9%E7%9B%AE/PZXMapGitDemo/PZXMapDemo/PZXSwiftProject/thirdSource/Sources/General/ZLPhotoPreviewSheet.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "1143"
+                  endingLineNumber = "1143"
+                  offsetFromSymbolStart = "156">
+               </Location>
+            </Locations>
+         </BreakpointContent>
+      </BreakpointProxy>
    </Breakpoints>
 </Bucket>
