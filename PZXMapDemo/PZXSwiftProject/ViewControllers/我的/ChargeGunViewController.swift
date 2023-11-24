@@ -15,7 +15,7 @@ class ChargeGunViewController: RootViewController {
 
         // Do any additional setup after loading the view.
         setSubviews()
-
+        removeQrVC()
     }
     //MARK: – UI
     // subviews
@@ -44,5 +44,16 @@ class ChargeGunViewController: RootViewController {
     
     //MARK: – Private Method
     // 私有方法
+    fileprivate func removeQrVC() {
+        if var naviVCsArr = self.navigationController?.viewControllers {
+            for (index, vc) in naviVCsArr.enumerated() {
+                if vc is QRCodeScannerViewController {
+                    naviVCsArr.remove(at: index)
+                    break
+                }
+            }
+            self.navigationController?.viewControllers = naviVCsArr
+        }
+    }
 
 }

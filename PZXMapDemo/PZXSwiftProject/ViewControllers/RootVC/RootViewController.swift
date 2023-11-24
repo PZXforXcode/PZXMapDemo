@@ -70,7 +70,7 @@ class RootViewController: UIViewController {
         self.navigationController?.navigationBar.isHidden = true
         initializeNavBar()
         //开启右滑返回手势🤚
-//        self.navigationController?.interactivePopGestureRecognizer?.delegate = self
+        self.navigationController?.interactivePopGestureRecognizer?.delegate = self
         
         self.view.backgroundColor = .white
     }

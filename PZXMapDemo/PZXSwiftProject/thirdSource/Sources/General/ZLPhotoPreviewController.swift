@@ -204,7 +204,7 @@ class ZLPhotoPreviewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+        //点击了图片进入这里
         setupUI()
         
         addPopInteractiveTransition()
@@ -906,7 +906,6 @@ extension ZLPhotoPreviewController: UICollectionViewDataSource, UICollectionView
             baseCell = cell
         } else {
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: ZLPhotoPreviewCell.zl.identifier, for: indexPath) as! ZLPhotoPreviewCell
-
             cell.singleTapBlock = { [weak self] in
                 self?.tapPreviewCell()
             }

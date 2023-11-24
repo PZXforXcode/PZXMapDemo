@@ -401,6 +401,9 @@ class ZLLivePhotoPreviewCell: ZLPreviewBaseCell {
         super.layoutSubviews()
         livePhotoView.frame = bounds
         resizeImageView(imageView: imageView, asset: model.asset)
+        print("livePhotoView.frame.width = \(livePhotoView.frame.width)")
+        print("livePhotoView.frame.height = \(livePhotoView.frame.height)")
+        
     }
     
     override func previewVCScroll() {
@@ -1061,6 +1064,7 @@ class ZLPreviewView: UIView {
     }
     
     func resetSubViewSize() {
+        
         let size: CGSize
         if let model = model {
             if let ei = model.editImage {
@@ -1128,6 +1132,8 @@ class ZLPreviewView: UIView {
         
         containerView.frame = frame
         
+        
+        
         var contenSize: CGSize = .zero
         if UIApplication.shared.statusBarOrientation.isLandscape {
             contenSize = CGSize(width: width, height: max(viewH, frame.height))
@@ -1149,6 +1155,10 @@ class ZLPreviewView: UIView {
             self.scrollView.contentSize = contenSize
             self.imageView.frame = self.containerView.bounds
             self.scrollView.contentOffset = .zero
+        }
+        
+        if let image = imageView.image {
+            scanQRCode(from: image)
         }
     }
     
@@ -1190,10 +1200,76 @@ class ZLPreviewView: UIView {
         imageView.layer.speed = 0
         imageView.layer.timeOffset = pauseTime
     }
+    
+    
+    func scanQRCode(from image: UIImage) {
+        // 将 UIImage 转换为 CIImage
+        guard let ciImage = CIImage(image: image) else {
+            print("Error converting UIImage to CIImage.")
+            return
+        }
+
+        // 创建 CIDetector
+        let detector = CIDetector(ofType: CIDetectorTypeQRCode, context: nil, options: nil)
+
+        // 获取识别结果
+        let features = detector?.features(in: ciImage)
+
+        // 处理识别结果
+        if let firstFeature = features?.first as? CIQRCodeFeature {
+            let scannedValue = firstFeature.messageString
+            print("Detected QR Code: \(scannedValue ?? "无")")
+            
+            let imageSize = ciImage.extent.size
+            let imageViewSize = CGSize(width: ZLPhotoConfiguration.default().containerViewWidth, height: ZLPhotoConfiguration.default().containerViewHeight)
+
+            print("imageSize = \(imageSize)")
+            print("imageViewSize = \(imageViewSize)")
+            
+            // 计算缩放比例
+            let scaleX = imageViewSize.width / imageSize.width
+            let scaleY = imageViewSize.height / imageSize.height
+
+            // 计算二维码在ImageView中的位置
+            // 计算二维码在ImageView中的位置
+            let qrCodeFrame = CGRect(x: firstFeature.bounds.origin.x * scaleX,
+                                      y: imageViewSize.height - (firstFeature.bounds.origin.y + firstFeature.bounds.height) * scaleY,
+                                      width: firstFeature.bounds.width * scaleX,
+                                      height: firstFeature.bounds.height * scaleY)
+            let qrCodeCenter = CGPoint(x: qrCodeFrame.midX, y: qrCodeFrame.midY)
+
+            print("QR Code Frame in ImageView: \(qrCodeFrame)")
+            print("QR Code Center in ImageView: \(qrCodeCenter)")
+            
+           let highlightView2 = UIView()
+            highlightView2.layer.borderColor = UIColor.yellow.cgColor
+            highlightView2.layer.borderWidth = 2
+//            highlightView2.layer.cornerRadius = 8
+            highlightView2.backgroundColor = .red
+            highlightView2.frame = qrCodeFrame
+            highlightView2.isHidden = true
+            highlightView2.center = qrCodeCenter
+            ZLPhotoConfiguration.default().highlightView = highlightView2
+            self.imageView.addSubview(ZLPhotoConfiguration.default().highlightView)
+
+        } else {
+            print("No QR Code detected.")
+        }
+    }
+    
 }
 
 extension ZLPreviewView: UIScrollViewDelegate {
     func viewForZooming(in scrollView: UIScrollView) -> UIView? {
+        print("containerView.width = \(containerView.frame.size.width)")
+        print("containerView.height = \(containerView.frame.size.height)")
+        let width = containerView.frame.size.width
+        let height = containerView.frame.size.height
+        ZLPhotoConfiguration.default().containerViewWidth = width
+        ZLPhotoConfiguration.default().containerViewHeight = height
+
+        
+        
         return containerView
     }
     
@@ -1206,4 +1282,6 @@ extension ZLPreviewView: UIScrollViewDelegate {
     func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
         resumeGif()
     }
+    
+    
 }

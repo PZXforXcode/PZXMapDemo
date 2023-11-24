@@ -7,8 +7,9 @@
 
 import AVFoundation
 import UIKit
+import Vision
 
-class QRCodeScannerViewController: UIViewController, AVCaptureMetadataOutputObjectsDelegate {
+class QRCodeScannerViewController: RootViewController, AVCaptureMetadataOutputObjectsDelegate {
 
     var captureSession: AVCaptureSession!
     var previewLayer: AVCaptureVideoPreviewLayer!
@@ -18,6 +19,7 @@ class QRCodeScannerViewController: UIViewController, AVCaptureMetadataOutputObje
     override func viewDidLoad() {
         super.viewDidLoad()
 
+        self.navBar.isHidden = true
         self.view.backgroundColor = .black
         // 创建 AVCaptureSession
         captureSession = AVCaptureSession()
@@ -113,6 +115,7 @@ class QRCodeScannerViewController: UIViewController, AVCaptureMetadataOutputObje
         ZLPhotoConfiguration.default().allowEditImage = false
         ZLPhotoConfiguration.default().allowSelectOriginal = false
         ZLPhotoConfiguration.default().selectImageBlockBack = false
+        ZLPhotoConfiguration.default().allowTakePhotoInLibrary = false
 
         print("点击相册")
         let ps = ZLPhotoPreviewSheet()
@@ -120,7 +123,11 @@ class QRCodeScannerViewController: UIViewController, AVCaptureMetadataOutputObje
         ps.selectImageBlock = { [weak self] results, isOriginal in
             // your code
 //            let qrCodeScanner = self?.QRCodeScanner()
-            self?.scanQRCode(from: results.first!.image)
+            let image = results.first!.image
+            
+
+
+            self?.scanQRCode(from: image)
 
 
         }
@@ -205,14 +212,27 @@ class QRCodeScannerViewController: UIViewController, AVCaptureMetadataOutputObje
         // 处理识别结果
         if let firstFeature = features?.first as? CIQRCodeFeature {
             let scannedValue = firstFeature.messageString
-            print("Detected QR Code: \(scannedValue ?? "无")")
-            
-            PZXKeyController().dismiss(animated: false) {
-                
-                let vc = ChargeGunViewController()
-                self.navigationController?.pushViewController(vc, animated: true)
-                
+            AudioServicesPlaySystemSound(1000);
+            ZLPhotoConfiguration.default().highlightView.isHidden = false
+            print("scannedValue = \(scannedValue ?? "")")
+            ///截屏，添加到当前View
+            let imageView = UIImageView(frame: PZXKeyController().view.bounds)
+            if let screenshotImage = PZXKeyController().view.screenshot() {
+                // 现在你可以使用 screenshotImage，比如保存到相册或展示在 UIImageView 中
+                // 例如：imageView.image = screenshotImage
+                imageView.image = screenshotImage
+                self.view.addSubview(imageView)
             }
+            
+            DispatchQueue.main.asyncAfter(deadline: DispatchTime.now()+0.8) {
+                
+                PZXKeyController().dismiss(animated: false) {
+                    let vc = ChargeGunViewController()
+                    self.navigationController?.pushViewController(vc, animated: true)
+                }
+
+            }
+  
 
             
             
@@ -220,4 +240,5 @@ class QRCodeScannerViewController: UIViewController, AVCaptureMetadataOutputObje
             print("No QR Code detected.")
         }
     }
+    
 }
