@@ -126,6 +126,26 @@ class MapViewController: RootViewController, MKMapViewDelegate {
         setSubviews()
 
     }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+
+     
+        
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) { [self] in
+            
+            // 获取当前方向，如果 locationManager.heading 可用
+               if let currentHeading = locationManager.heading {
+                   // 更新用户定位点视图的方向
+                   if let userLocationView = mapView.view(for: mapView.userLocation) {
+                       userLocationView.transform = CGAffineTransform(rotationAngle: CGFloat(currentHeading.trueHeading) * .pi / 180.0)
+                   }
+               }
+            
+        }
+        
+
+    }
     //MARK: – UI
     // subviews
     func setSubviews(){
@@ -157,7 +177,7 @@ class MapViewController: RootViewController, MKMapViewDelegate {
         mapView.delegate = self
         mapView.showsUserLocation = true
 //        mapView.isRotateEnabled = false
-        mapView.userTrackingMode = .follow
+        mapView.userTrackingMode = .followWithHeading
 
         
         view.addSubview(mapView)
@@ -437,12 +457,13 @@ extension MapViewController:CLLocationManagerDelegate{
          if let location = locations.last {
              
              let region = MKCoordinateRegion(center: location.coordinate, latitudinalMeters: 5000, longitudinalMeters: 5000)
-             print("location.coordinate.latitude = \(location.coordinate.latitude)")
-             print("location.coordinate.longitude = \(location.coordinate.longitude)")
+//             print("location.coordinate.latitude = \(location.coordinate.latitude)")
+//             print("location.coordinate.longitude = \(location.coordinate.longitude)")
              mapView.setRegion(region, animated: true)
              // 添加一些标注
              addRandomAnnotationsNearby(coordinate: location.coordinate)
              print("didUpdateLocations")
+
 
              locationManager.stopUpdatingLocation()
          }
@@ -455,14 +476,18 @@ extension MapViewController:CLLocationManagerDelegate{
 //         mapView.setCamera(mapView.camera, animated: true)
          
          // 获取设备方向，并更新用户定位点视图的方向
-         // 获取设备方向，并更新用户定位点视图的方向
-                 if let userLocationView = mapView.view(for: mapView.userLocation) {
-                     userLocationView.transform = CGAffineTransform(rotationAngle: CGFloat(newHeading.trueHeading) * .pi / 180.0)
-                 }
-
+         updateUserLocationViewWithHeading(newHeading.trueHeading)
          
          
      }
+    
+
+    
+    func updateUserLocationViewWithHeading(_ heading: CLLocationDirection) {
+        if let userLocationView = mapView.view(for: mapView.userLocation) {
+            userLocationView.transform = CGAffineTransform(rotationAngle: CGFloat(heading) * .pi / 180.0)
+        }
+    }
     
 
     
@@ -475,24 +500,7 @@ extension CGFloat {
     }
 }
 
-extension UIImage {
-    func rotate(degrees: CGFloat) -> UIImage? {
-        let rotatedSize = CGRect(origin: .zero, size: size)
-            .applying(CGAffineTransform(rotationAngle: CGFloat(degrees * .pi / 180.0)))
-            .integral.size
-        UIGraphicsBeginImageContext(rotatedSize)
-        if let context = UIGraphicsGetCurrentContext() {
-            let origin = CGPoint(x: rotatedSize.width / 2.0, y: rotatedSize.height / 2.0)
-            context.translateBy(x: origin.x, y: origin.y)
-            context.rotate(by: (degrees * .pi / 180.0))
-            draw(in: CGRect(x: -origin.x, y: -origin.y, width: size.width, height: size.height))
-            let rotatedImage = UIGraphicsGetImageFromCurrentImageContext()
-            UIGraphicsEndImageContext()
-            return rotatedImage
-        }
-        return nil
-    }
-}
+
 
 
 
