@@ -91,6 +91,10 @@
 		898FC543265F7BC500CEEF48 /* NetConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = 898FC542265F7BC500CEEF48 /* NetConfig.swift */; };
 		898FC545265F7D3100CEEF48 /* SeverConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = 898FC544265F7D3100CEEF48 /* SeverConfig.swift */; };
 		898FC547265F7F3C00CEEF48 /* NetworkingManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 898FC546265F7F3C00CEEF48 /* NetworkingManager.swift */; };
+		8992BBD72B2BD8D300D5A374 /* PZXScanAnimationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8992BBD62B2BD8D300D5A374 /* PZXScanAnimationView.swift */; };
+		8992BBDA2B2BE73D00D5A374 /* SearchHistoryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8992BBD92B2BE73D00D5A374 /* SearchHistoryViewController.swift */; };
+		8992BBDC2B2BE78500D5A374 /* SearchHistoryViewController.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 8992BBDB2B2BE78500D5A374 /* SearchHistoryViewController.storyboard */; };
+		8992BBDE2B2BE9C300D5A374 /* SearchHistoryCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8992BBDD2B2BE9C300D5A374 /* SearchHistoryCollectionViewCell.swift */; };
 		899969512B0741DA0057649C /* MKMapView+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 899969502B0741DA0057649C /* MKMapView+Extension.swift */; };
 		89E58C292693DA3C007C58D8 /* NSArray+HYBUnicodeReadable.m in Sources */ = {isa = PBXBuildFile; fileRef = 89E58C232693DA3C007C58D8 /* NSArray+HYBUnicodeReadable.m */; };
 		89E58C2A2693DA3C007C58D8 /* NSDictionary+HYBUnicodeReadable.m in Sources */ = {isa = PBXBuildFile; fileRef = 89E58C242693DA3C007C58D8 /* NSDictionary+HYBUnicodeReadable.m */; };
@@ -214,6 +218,10 @@
 		898FC542265F7BC500CEEF48 /* NetConfig.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetConfig.swift; sourceTree = "<group>"; };
 		898FC544265F7D3100CEEF48 /* SeverConfig.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SeverConfig.swift; sourceTree = "<group>"; };
 		898FC546265F7F3C00CEEF48 /* NetworkingManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkingManager.swift; sourceTree = "<group>"; };
+		8992BBD62B2BD8D300D5A374 /* PZXScanAnimationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PZXScanAnimationView.swift; sourceTree = "<group>"; };
+		8992BBD92B2BE73D00D5A374 /* SearchHistoryViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchHistoryViewController.swift; sourceTree = "<group>"; };
+		8992BBDB2B2BE78500D5A374 /* SearchHistoryViewController.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = SearchHistoryViewController.storyboard; sourceTree = "<group>"; };
+		8992BBDD2B2BE9C300D5A374 /* SearchHistoryCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchHistoryCollectionViewCell.swift; sourceTree = "<group>"; };
 		899969502B0741DA0057649C /* MKMapView+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "MKMapView+Extension.swift"; sourceTree = "<group>"; };
 		89E58C232693DA3C007C58D8 /* NSArray+HYBUnicodeReadable.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSArray+HYBUnicodeReadable.m"; sourceTree = "<group>"; };
 		89E58C242693DA3C007C58D8 /* NSDictionary+HYBUnicodeReadable.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSDictionary+HYBUnicodeReadable.m"; sourceTree = "<group>"; };
@@ -478,6 +486,16 @@
 			path = BaseInstance;
 			sourceTree = "<group>";
 		};
+		8992BBD82B2BE2F200D5A374 /* 搜索历史 */ = {
+			isa = PBXGroup;
+			children = (
+				8992BBD92B2BE73D00D5A374 /* SearchHistoryViewController.swift */,
+				8992BBDB2B2BE78500D5A374 /* SearchHistoryViewController.storyboard */,
+				8992BBDD2B2BE9C300D5A374 /* SearchHistoryCollectionViewCell.swift */,
+			);
+			path = "搜索历史";
+			sourceTree = "<group>";
+		};
 		89E58C222693DA3C007C58D8 /* HYBUnicodeReadable */ = {
 			isa = PBXGroup;
 			children = (
@@ -518,7 +536,7 @@
 				89E58C402693EC8B007C58D8 /* RootVC */,
 				89E58C3F2693EC52007C58D8 /* 买车 */,
 				89E58C3E2693EC4C007C58D8 /* 我的 */,
-				89E58C3D2693EC40007C58D8 /* 服务 */,
+				89E58C3D2693EC40007C58D8 /* 二页 */,
 				89E58C3C2693EBBB007C58D8 /* 首页 */,
 			);
 			path = ViewControllers;
@@ -532,7 +550,7 @@
 			path = "首页";
 			sourceTree = "<group>";
 		};
-		89E58C3D2693EC40007C58D8 /* 服务 */ = {
+		89E58C3D2693EC40007C58D8 /* 二页 */ = {
 			isa = PBXGroup;
 			children = (
 				89E58C492693F19F007C58D8 /* ServerViewController.swift */,
@@ -541,15 +559,17 @@
 				894DE5AA2B04BA5E002510E4 /* MapViewController.swift */,
 				891D153F2B05DC8200E5A0DA /* Map2ViewController.swift */,
 			);
-			path = "服务";
+			path = "二页";
 			sourceTree = "<group>";
 		};
 		89E58C3E2693EC4C007C58D8 /* 我的 */ = {
 			isa = PBXGroup;
 			children = (
+				8992BBD82B2BE2F200D5A374 /* 搜索历史 */,
 				89E58C4B2693F1AD007C58D8 /* MineViewController.swift */,
 				894826EA2B0DFB490018A883 /* QRCodeScannerViewController.swift */,
 				8981EB8B2B0EF24C00555660 /* ChargeGunViewController.swift */,
+				8992BBD62B2BD8D300D5A374 /* PZXScanAnimationView.swift */,
 			);
 			path = "我的";
 			sourceTree = "<group>";
@@ -663,6 +683,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				8992BBDC2B2BE78500D5A374 /* SearchHistoryViewController.storyboard in Resources */,
 				89E58C6D26942E4E007C58D8 /* ServerViewController.storyboard in Resources */,
 				898FC52D265F334E00CEEF48 /* LaunchScreen.storyboard in Resources */,
 				898FC52A265F334E00CEEF48 /* Assets.xcassets in Resources */,
@@ -764,6 +785,7 @@
 				8981EB6C2B0EEB5A00555660 /* ZLPhotoPreviewAnimatedTransition.swift in Sources */,
 				8981EB4D2B0EEB5A00555660 /* ZLPhotoModel.swift in Sources */,
 				8981EB6E2B0EEB5A00555660 /* ZLPhotoPreviewPopInteractiveTransition.swift in Sources */,
+				8992BBDA2B2BE73D00D5A374 /* SearchHistoryViewController.swift in Sources */,
 				8981EB582B0EEB5A00555660 /* ZLPhotoPreviewSheet.swift in Sources */,
 				89E58C4A2693F19F007C58D8 /* ServerViewController.swift in Sources */,
 				8981EB6D2B0EEB5A00555660 /* ZLClipImageDismissAnimatedTransition.swift in Sources */,
@@ -806,6 +828,7 @@
 				8981EB592B0EEB5A00555660 /* ZLAlbumListCell.swift in Sources */,
 				8981EB712B0EEB5A00555660 /* NSError+ZLPhotoBrowser.swift in Sources */,
 				8981EB872B0EEB5A00555660 /* ZLEditVideoViewController.swift in Sources */,
+				8992BBD72B2BD8D300D5A374 /* PZXScanAnimationView.swift in Sources */,
 				89E58C642693FA0C007C58D8 /* UILabel+Function.swift in Sources */,
 				89E58C2A2693DA3C007C58D8 /* NSDictionary+HYBUnicodeReadable.m in Sources */,
 				8981EB4E2B0EEB5A00555660 /* ZLEnlargeButton.swift in Sources */,
@@ -836,6 +859,7 @@
 				8981EB7D2B0EEB5A00555660 /* ZLInputTextViewController.swift in Sources */,
 				8981EB6B2B0EEB5A00555660 /* ZLCustomCamera.swift in Sources */,
 				8981EB622B0EEB5A00555660 /* ZLGeneralDefine.swift in Sources */,
+				8992BBDE2B2BE9C300D5A374 /* SearchHistoryCollectionViewCell.swift in Sources */,
 				898FC538265F653C00CEEF48 /* PublicConfig.swift in Sources */,
 				89E58C292693DA3C007C58D8 /* NSArray+HYBUnicodeReadable.m in Sources */,
 				89E58C662693FA0C007C58D8 /* UIImage+Function.swift in Sources */,

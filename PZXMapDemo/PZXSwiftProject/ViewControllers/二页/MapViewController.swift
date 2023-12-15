@@ -14,6 +14,7 @@ class PZXCustomAnnotation: NSObject, MKAnnotation {
     var coordinate: CLLocationCoordinate2D
     var title: String?
     var subtitle: String?
+    
 
     init(latitude: Double, longitude: Double){
         title = "1"
@@ -38,7 +39,7 @@ class ClusterAnnotationView: MKAnnotationView {
             let label = UILabel(frame: CGRect(x: 0, y: 0, width: 50, height: 50))
             label.text = "\(count ?? 1)"
             label.textAlignment = .center
-            label.textColor = UIColor.red
+            label.textColor = UIColor.white
             self.addSubview(label)
         }
     }
@@ -58,7 +59,7 @@ class CustomAnnotationView: MKAnnotationView {
             self.frame = CGRect(x: 0, y: 0, width: 50, height: 50)
             self.layer.cornerRadius = 25
             self.layer.borderWidth = 2
-            self.layer.borderColor = UIColor.yellow.cgColor
+            self.layer.borderColor = UIColor.white.cgColor
 //            self.layer.masksToBounds = true
             backgroundColor = .white
             
@@ -78,7 +79,7 @@ class CustomAnnotationView: MKAnnotationView {
             foregroundView.addSubview(label)
             foregroundView.layer.cornerRadius = 25
             foregroundView.layer.borderWidth = 2
-            foregroundView.backgroundColor = .brown
+            foregroundView.backgroundColor = .blue
 //            foregroundView.isUserInteractionEnabled = false
             self.addSubview(foregroundView)
         
@@ -101,12 +102,19 @@ class CustomAnnotationView: MKAnnotationView {
     }
 }
 
+//MARK: 地图MapViewController
 
 class MapViewController: RootViewController, MKMapViewDelegate {
     
     var mapView: MKMapView!
     var annotations = [MKAnnotation]()
     var previousZoomLevel: Double = 0
+    
+    let locationManager = CLLocationManager()
+    
+    var headingImageView: UIImageView?
+
+
     ///是否是点击导致移动的
 //    var isSelectMove: Bool = false
 
@@ -122,35 +130,44 @@ class MapViewController: RootViewController, MKMapViewDelegate {
     // subviews
     func setSubviews(){
         
-        let locationManager = CLLocationManager()
         // 先检查权限
         if locationManager.authorizationStatus == .authorizedWhenInUse || locationManager.authorizationStatus ==
         .authorizedAlways {
           // 已经获取到权限
+            print("已经获取到权限")
         } else {
+            print("没有权限")
           locationManager.requestWhenInUseAuthorization()
         }
-        // Do any additional setup after loading the view.
-        locationManager.startUpdatingLocation()
+        
+        locationManager.delegate = self
+        locationManager.desiredAccuracy = kCLLocationAccuracyBest
+
+
         
         
         // 设置地图的初始显示区域
-        let initialLocation = CLLocation(latitude: 37.7749, longitude: -122.4194)
-        let regionRadius: CLLocationDistance = 5000
-        let coordinateRegion = MKCoordinateRegion(center: initialLocation.coordinate, latitudinalMeters: regionRadius, longitudinalMeters: regionRadius)
+//        let initialLocation = CLLocation(latitude: 37.7749, longitude: -122.4194)
+//        let regionRadius: CLLocationDistance = 5000
+//        let coordinateRegion = MKCoordinateRegion(center: initialLocation.coordinate, latitudinalMeters: regionRadius, longitudinalMeters: regionRadius)
 
         
         // 创建 MKMapView 对象
         mapView = MKMapView(frame: view.bounds)
         mapView.delegate = self
-        view.addSubview(mapView)
-        mapView.setRegion(coordinateRegion, animated: true)
+        mapView.showsUserLocation = true
+//        mapView.isRotateEnabled = false
+        mapView.userTrackingMode = .follow
 
-        // 添加一些标注
-        addRandomAnnotationsNearby()
+        
+        view.addSubview(mapView)
+//        mapView.setRegion(coordinateRegion, animated: true)
+//
+//        // 添加一些标注
+//        addRandomAnnotationsNearby(coordinate: initialLocation.coordinate)
 
         // 将标注添加到地图x
-        mapView.addAnnotations(annotations)
+//        mapView.addAnnotations(annotations)
 
         // 配置聚合
         mapView.register(CustomAnnotationView.self, forAnnotationViewWithReuseIdentifier: MKMapViewDefaultAnnotationViewReuseIdentifier)
@@ -172,7 +189,15 @@ class MapViewController: RootViewController, MKMapViewDelegate {
         button.addTarget(self, action: #selector(buttonPressed), for: .touchUpInside)
         self.mapView.addSubview(button)
         
+        // Do any additional setup after loading the view.
+        locationManager.startUpdatingLocation()
+        locationManager.startUpdatingHeading()
+
+        
     }
+    
+
+    
     @objc func buttonPressed() {
         
         let vc : Mine2ViewController = Mine2ViewController.init()
@@ -181,7 +206,7 @@ class MapViewController: RootViewController, MKMapViewDelegate {
         
     }
     
-    func addRandomAnnotationsNearby() {
+    func addRandomAnnotationsNearby(coordinate:CLLocationCoordinate2D) {
         
         // 清除地图上的现有标注
         mapView.removeAnnotations(annotations)
@@ -191,8 +216,8 @@ class MapViewController: RootViewController, MKMapViewDelegate {
 
         // 在37.7749, -122.4194 附近随机生成20个标注点
         for _ in 1...20 {
-            let randomLatitude = Double.random(in: 37.7749 - 0.01 ... 37.7749 + 0.01)
-            let randomLongitude = Double.random(in: -122.4194 - 0.01 ... -122.4194 + 0.01)
+            let randomLatitude = Double.random(in: coordinate.latitude - 0.01 ... coordinate.latitude + 0.01)
+            let randomLongitude = Double.random(in: coordinate.longitude - 0.01 ... coordinate.longitude + 0.01)
 
             let annotation = PZXCustomAnnotation(latitude: randomLatitude, longitude: randomLongitude)
             annotation.coordinate = CLLocationCoordinate2D(latitude: randomLatitude, longitude: randomLongitude)
@@ -274,16 +299,29 @@ class MapViewController: RootViewController, MKMapViewDelegate {
              }
              annotationView.annotation = annotation
              return annotationView
-         } else {
+         }else if annotation is MKUserLocation {
+
+             let userLocationView = MKAnnotationView(annotation: annotation, reuseIdentifier: nil)
+             // 设置用户定位点视图的大小
+             userLocationView.frame  = CGRectMake(0, 0, 10, 10)
+             userLocationView.image = UIImage(named: "shangjiantou")
+             return userLocationView
+
+//             return nil
+             
+         }else {
              return MKMarkerAnnotationView(annotation: annotation, reuseIdentifier: MKMapViewDefaultAnnotationViewReuseIdentifier)
          }
      }
+    
+    // MARK: - UIScrollViewDelegate
+  
     
     func mapView(_ mapView: MKMapView, regionWillChangeAnimated animated: Bool) {
         // 在这里处理缩放开始的逻辑
 //        hideAllCustomAnnotationView(mapView)
         previousZoomLevel  = mapView.zoomLevel
-        
+         
 
     }
 
@@ -301,6 +339,8 @@ class MapViewController: RootViewController, MKMapViewDelegate {
 
 
     }
+    
+    
     
 
     fileprivate func hideCustomAnnotationView(_ mapView: MKMapView, selfView: CustomAnnotationView?,isAll:Bool = false) {
@@ -390,6 +430,69 @@ class MapViewController: RootViewController, MKMapViewDelegate {
 
 }
 
+extension MapViewController:CLLocationManagerDelegate{
+    
+    func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
+        
+         if let location = locations.last {
+             
+             let region = MKCoordinateRegion(center: location.coordinate, latitudinalMeters: 5000, longitudinalMeters: 5000)
+             print("location.coordinate.latitude = \(location.coordinate.latitude)")
+             print("location.coordinate.longitude = \(location.coordinate.longitude)")
+             mapView.setRegion(region, animated: true)
+             // 添加一些标注
+             addRandomAnnotationsNearby(coordinate: location.coordinate)
+             print("didUpdateLocations")
+
+             locationManager.stopUpdatingLocation()
+         }
+     }
+
+     func locationManager(_ manager: CLLocationManager, didUpdateHeading newHeading: CLHeading) {
+         print("didUpdateHeading")
+         
+//         mapView.camera.heading = newHeading.trueHeading
+//         mapView.setCamera(mapView.camera, animated: true)
+         
+         // 获取设备方向，并更新用户定位点视图的方向
+         // 获取设备方向，并更新用户定位点视图的方向
+                 if let userLocationView = mapView.view(for: mapView.userLocation) {
+                     userLocationView.transform = CGAffineTransform(rotationAngle: CGFloat(newHeading.trueHeading) * .pi / 180.0)
+                 }
+
+         
+         
+     }
+    
+
+    
+    
+}
+
+extension CGFloat {
+    var toRadians: CGFloat {
+        return self * .pi / 180.0
+    }
+}
+
+extension UIImage {
+    func rotate(degrees: CGFloat) -> UIImage? {
+        let rotatedSize = CGRect(origin: .zero, size: size)
+            .applying(CGAffineTransform(rotationAngle: CGFloat(degrees * .pi / 180.0)))
+            .integral.size
+        UIGraphicsBeginImageContext(rotatedSize)
+        if let context = UIGraphicsGetCurrentContext() {
+            let origin = CGPoint(x: rotatedSize.width / 2.0, y: rotatedSize.height / 2.0)
+            context.translateBy(x: origin.x, y: origin.y)
+            context.rotate(by: (degrees * .pi / 180.0))
+            draw(in: CGRect(x: -origin.x, y: -origin.y, width: size.width, height: size.height))
+            let rotatedImage = UIGraphicsGetImageFromCurrentImageContext()
+            UIGraphicsEndImageContext()
+            return rotatedImage
+        }
+        return nil
+    }
+}
 
 
 

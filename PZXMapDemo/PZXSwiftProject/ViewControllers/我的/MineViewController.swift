@@ -62,6 +62,13 @@ class MineViewController: UIViewController, MKMapViewDelegate {
         button2.frame = CGRect(x: 240, y: 80, width: 80, height: 30)
         button2.addTarget(self, action: #selector(buttonPressed2), for: .touchUpInside)
         self.mapView.addSubview(button2)
+        
+        let button3 = UIButton.init(type: .custom)
+        button3.setTitle("搜索历史", for: .normal)
+        button3.setTitleColor(.red, for: .normal)
+        button3.frame = CGRect(x: 40, y: 160, width: 80, height: 30)
+        button3.addTarget(self, action: #selector(buttonPressed3), for: .touchUpInside)
+        self.mapView.addSubview(button3)
 
     }
     
@@ -75,6 +82,14 @@ class MineViewController: UIViewController, MKMapViewDelegate {
     @objc func buttonPressed2() {
             
         let vc = QRCodeScannerViewController()
+        vc.hidesBottomBarWhenPushed = true
+        self.navigationController?.pushViewController(vc, animated: true)
+
+    }
+    
+    @objc func buttonPressed3() {
+            
+        let vc : SearchHistoryViewController = UIStoryboard.init(name: "SearchHistoryViewController", bundle: nil).instantiateViewController(withIdentifier: "SearchHistoryViewController") as! SearchHistoryViewController;
         vc.hidesBottomBarWhenPushed = true
         self.navigationController?.pushViewController(vc, animated: true)
 

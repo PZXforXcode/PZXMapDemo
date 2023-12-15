@@ -15,6 +15,9 @@ class QRCodeScannerViewController: RootViewController, AVCaptureMetadataOutputOb
     var previewLayer: AVCaptureVideoPreviewLayer!
     var highlightView: UIView!
     var isFlashlightOn = false
+    
+    var scanAnimationView: PZXScanAnimationView!
+
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -80,6 +83,13 @@ class QRCodeScannerViewController: RootViewController, AVCaptureMetadataOutputOb
         highlightView.isHidden = true
         view.addSubview(highlightView)
         
+        
+        
+        
+        scanAnimationView = PZXScanAnimationView(frame: CGRect(x: 36, y: TOP_HEIGHT, width: SCREEN_WIDTH - 72, height: SCREEN_HEIGHT - TOP_HEIGHT - 180))
+        view.addSubview(scanAnimationView)
+        scanAnimationView.startScanAnimation()
+
         
         let leftButton = UIButton(type: .custom)
         leftButton.setTitle("开灯", for: .normal)
@@ -179,6 +189,8 @@ class QRCodeScannerViewController: RootViewController, AVCaptureMetadataOutputOb
                      // 在中心点显示红色圆形视图
             highlightView.center = CGPoint(x: barcodeObject!.bounds.midX, y: barcodeObject!.bounds.midY)
             highlightView.isHidden = false
+            scanAnimationView.stopScanAnimation()
+            scanAnimationView.isHidden = true
 
             // 处理扫描到的二维码
             print("扫描结果: \(stringValue)")
