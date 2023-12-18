@@ -209,6 +209,13 @@ class MapViewController: RootViewController, MKMapViewDelegate {
         button.addTarget(self, action: #selector(buttonPressed), for: .touchUpInside)
         self.mapView.addSubview(button)
         
+        
+        let button2 = UIButton.init(type: .custom)
+        button2.setTitle("定位", for: .normal)
+        button2.frame = CGRect(x: 240, y: 80, width: 80, height: 30)
+        button2.addTarget(self, action: #selector(buttonPressed2), for: .touchUpInside)
+        self.mapView.addSubview(button2)
+        
         // Do any additional setup after loading the view.
         locationManager.startUpdatingLocation()
         locationManager.startUpdatingHeading()
@@ -223,6 +230,17 @@ class MapViewController: RootViewController, MKMapViewDelegate {
         let vc : Mine2ViewController = Mine2ViewController.init()
         vc.hidesBottomBarWhenPushed = true
         self.navigationController?.pushViewController(vc, animated: true)
+        
+    }
+    
+    
+    @objc func buttonPressed2() {
+        
+        let latitude = locationManager.location?.coordinate.latitude
+        let longitude = locationManager.location?.coordinate.longitude
+        
+        mapView.setCenter(CLLocationCoordinate2D(latitude: latitude ?? 0, longitude: longitude ?? 0), animated: true)
+
         
     }
     
@@ -321,13 +339,13 @@ class MapViewController: RootViewController, MKMapViewDelegate {
              return annotationView
          }else if annotation is MKUserLocation {
 
-             let userLocationView = MKAnnotationView(annotation: annotation, reuseIdentifier: nil)
-             // 设置用户定位点视图的大小
-             userLocationView.frame  = CGRectMake(0, 0, 10, 10)
-             userLocationView.image = UIImage(named: "shangjiantou")
-             return userLocationView
+//             let userLocationView = MKAnnotationView(annotation: annotation, reuseIdentifier: nil)
+//             // 设置用户定位点视图的大小
+//             userLocationView.frame  = CGRectMake(0, 0, 10, 10)
+//             userLocationView.image = UIImage(named: "shangjiantou")
+//             return userLocationView
 
-//             return nil
+             return nil
              
          }else {
              return MKMarkerAnnotationView(annotation: annotation, reuseIdentifier: MKMapViewDefaultAnnotationViewReuseIdentifier)
@@ -349,8 +367,10 @@ class MapViewController: RootViewController, MKMapViewDelegate {
         // 在这里处理缩放结束的逻辑
 
 
-        print("previousZoomLevel = \(previousZoomLevel)")
-        print("mapView.zoomLevel = \(mapView.zoomLevel)")
+//        print("previousZoomLevel = \(previousZoomLevel)")
+//        print("mapView.zoomLevel = \(mapView.zoomLevel)")
+        let rotationAngle = mapView.camera.heading
+                print("地图旋转角度：\(rotationAngle) 度")
 //        addRandomAnnotationsNearby()
         if (previousZoomLevel != mapView.zoomLevel) {
 //            mapView.removeAnnotations(annotations)
