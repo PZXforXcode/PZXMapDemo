@@ -82,13 +82,13 @@ public class ZLPhotoConfiguration: NSObject {
         }
     }
     
-    ///自己加的属性，选择图片后，是否dismiss
+    ///自己加的属性，选择图片后，是否dismiss //PZX修改
     public var selectImageBlockBack = true
-    ///自己加的属性，containerView的宽，就是单张大图
+    ///自己加的属性，containerView的宽，就是单张大图 //PZX修改
     public var containerViewWidth = 0.0
-    ///自己加的属性，containerView的高，就是单张大图
+    ///自己加的属性，containerView的高，就是单张大图 //PZX修改
     public var containerViewHeight = 0.0
-    /// 自己加的属性 二维码的高亮View 用于标记二维码功能
+    /// 自己加的属性 二维码的高亮View 用于标记二维码功能 //PZX修改
     public var highlightView = UIView()
 
 

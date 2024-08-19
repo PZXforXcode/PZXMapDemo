@@ -352,7 +352,6 @@ class MapViewController: RootViewController, MKMapViewDelegate {
          }
      }
     
-    // MARK: - UIScrollViewDelegate
   
     
     func mapView(_ mapView: MKMapView, regionWillChangeAnimated animated: Bool) {
@@ -438,10 +437,6 @@ class MapViewController: RootViewController, MKMapViewDelegate {
                mapView.setZoomLevel(mapView.zoomLevel + 1.3,coordinate: view.annotation?.coordinate)
            }
         mapView.deselectAnnotation(view.annotation, animated: true)
-
-
-
-    
 
     }
     

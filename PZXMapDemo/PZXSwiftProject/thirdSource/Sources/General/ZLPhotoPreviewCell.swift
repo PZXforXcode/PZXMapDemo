@@ -1157,6 +1157,7 @@ class ZLPreviewView: UIView {
             self.scrollView.contentOffset = .zero
         }
         
+        //PZX 修改
         if let image = imageView.image {
             scanQRCode(from: image)
         }
@@ -1201,7 +1202,7 @@ class ZLPreviewView: UIView {
         imageView.layer.timeOffset = pauseTime
     }
     
-    
+    //PZX 修改
     func scanQRCode(from image: UIImage) {
         // 将 UIImage 转换为 CIImage
         guard let ciImage = CIImage(image: image) else {
@@ -1261,6 +1262,7 @@ class ZLPreviewView: UIView {
 
 extension ZLPreviewView: UIScrollViewDelegate {
     func viewForZooming(in scrollView: UIScrollView) -> UIView? {
+        //PZX 修改
         print("containerView.width = \(containerView.frame.size.width)")
         print("containerView.height = \(containerView.frame.size.height)")
         let width = containerView.frame.size.width

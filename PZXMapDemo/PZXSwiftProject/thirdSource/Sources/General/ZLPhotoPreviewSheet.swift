@@ -601,6 +601,7 @@ public class ZLPhotoPreviewSheet: UIView {
             }
             
             ///返回逻辑，看是否需要关闭返回
+            //PZX 修改
             let config = ZLPhotoConfiguration.default()
             if (config.selectImageBlockBack == true) {
                 if let vc = viewController {
