@@ -204,8 +204,8 @@ class MapViewController: RootViewController, MKMapViewDelegate {
         
         
         let button = UIButton.init(type: .custom)
-        button.setTitle("跳转", for: .normal)
-        button.frame = CGRect(x: 40, y: 80, width: 80, height: 30)
+        button.setTitle("跳转到自己算聚合", for: .normal)
+        button.frame = CGRect(x: 40, y: 80, width: 180, height: 30)
         button.addTarget(self, action: #selector(buttonPressed), for: .touchUpInside)
         self.mapView.addSubview(button)
         
